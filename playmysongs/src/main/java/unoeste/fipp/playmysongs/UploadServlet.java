@@ -22,7 +22,7 @@ public class UploadServlet extends HttpServlet {
         String semAcentos = normaliza.replaceAll("[^\\p{ASCII}]", "");
 
         // Substituir espaços por underlines
-        String formatado = semAcentos.replaceAll("\\s", "_");
+        String formatado = semAcentos.trim();
 
         return formatado;
     }
@@ -52,5 +52,7 @@ public class UploadServlet extends HttpServlet {
         } catch (IOException e) {
             System.err.println("Erro ao salvar o arquivo: " + e.getMessage());
         }
+        response.sendRedirect("./enviamusica.jsp");
+        return;
     }
 }

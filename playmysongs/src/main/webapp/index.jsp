@@ -7,7 +7,16 @@
 <head>
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script>
+    </script>
     <%!
+        private boolean select(char i,Object o) {
+            Pesquisar p = (Pesquisar) o;
+            if(p!=null && p.getEscolha()==i)
+                return true;
+            return false;
+        }
+
         private String musica(String absolutePath) {
             int i=absolutePath.length()-1;
             while(absolutePath.charAt(i)!='\\')
@@ -31,7 +40,7 @@
             int i=absolutePath.length()-1;
             while(absolutePath.charAt(i)!='\\')
                 i--;
-            return absolutePath.substring(i+1);
+            return absolutePath.substring(i+1,absolutePath.length()-4);
         }
 
         private String nome(String musica){
@@ -47,15 +56,34 @@
                 i--;
             return musica.substring(++i);
         }
+
+
+
+
     %>
 </head>
 <body>
     <%@include file="topo.jsp" %>
     <br><br><br><br><br><br><br><br><br>
-    <form class="row g-3" style="margin-left: 20%" method="get" action="./pesquisar-servlet">
-        <div class="col-auto" style="display: flex">
-            <input type="text" class="form-control"  style="width: 1000px" id="MusicName" name="MusicName" placeholder="Musica...">
-            <input style="background: aquamarine;width:100px" type="submit" class="form-control" value="pesquisar">
+    <form class="row row-cols-lg-auto g-3 align-items-center" style="margin-left: 40%" method="get" action="./pesquisar-servlet">
+        <div class="col-12">
+            <div class="input-group">
+                <input type="text" class="form-control" id="filtro" name="filtro" placeholder="Palavra-Chave" value="<%=((Pesquisar)session.getAttribute("filtro"))!=null? ((Pesquisar)session.getAttribute("filtro")).getNome():"" %>">
+            </div>
+        </div>
+
+        <div class="col-12">
+            <select class="form-select" id="escolha" name="escolha" >
+                <option <%if(select('1',session.getAttribute("filtro")))out.print("selected");%> value="1">Musica</option>
+                <option <%if(select('2',session.getAttribute("filtro")))out.print("selected");%> value="2">Artista</option>
+                <option <%if(select('3',session.getAttribute("filtro")))out.print("selected");%> value="3">Estilo</option>
+            </select>
+        </div>
+
+        <div class="col-12">
+            <div class="input-group">
+                <input type="submit" style="background: cyan" class="form-control" value="pesquisar">
+            </div>
         </div>
     </form>
 
@@ -69,13 +97,33 @@
             if(pastaMusicas.exists()){
                 if(p!=null && p.getNome().compareTo("")!=0 ){
                     for (File file : pastaMusicas.listFiles())
-                        if(file.isFile() && formatMusic(file.getAbsolutePath()).equals(p.getNome())){
-                            out.print("<div class=\"row justify-content-center\">" +
-                                    "<audio controls class=\"col-md-6\">   " +
-                                    "<source src=\"../"+file.getAbsolutePath()+"\" type=\"audio/mpeg\">" +
-                                    "</audio>" +
-                                    "<br>" +
-                                    "<p style=\"text-align:center;\">"+formatMusic(file.getAbsolutePath())+"</p> </div>");
+                        if(file.isFile()) {
+                            if (p.getEscolha() == '1' && p.getNome().equals(nome(formatMusic(file.getAbsolutePath())))) {
+                                out.print("<div class=\"row justify-content-center\">" +
+                                        "<audio controls class=\"col-md-6\">   " +
+                                        "<source src=\"" + "." + musica(file.getAbsolutePath()) + "\" type=\"audio/mpeg\">" +
+                                        "</audio>" +
+                                        "<br>" +
+                                        "<p style=\"text-align:center;\">" + formatMusic(file.getAbsolutePath()) + "</p> </div>");
+                            }
+                            else
+                            if(p.getEscolha() == '2' && p.getNome().equals(cantor(formatMusic(file.getAbsolutePath())))){
+                                out.print("<div class=\"row justify-content-center\">" +
+                                        "<audio controls class=\"col-md-6\">   " +
+                                        "<source src=\"" + "." + musica(file.getAbsolutePath()) + "\" type=\"audio/mpeg\">" +
+                                        "</audio>" +
+                                        "<br>" +
+                                        "<p style=\"text-align:center;\">" + formatMusic(file.getAbsolutePath()) + "</p> </div>");
+                            }
+                            else
+                            if(p.getNome().equals(estilo(formatMusic(file.getAbsolutePath())))){
+                                out.print("<div class=\"row justify-content-center\">" +
+                                        "<audio controls class=\"col-md-6\">   " +
+                                        "<source src=\"" + "." + musica(file.getAbsolutePath()) + "\" type=\"audio/mpeg\">" +
+                                        "</audio>" +
+                                        "<br>" +
+                                        "<p style=\"text-align:center;\">" + formatMusic(file.getAbsolutePath()) + "</p> </div>");
+                            }
                         }
                 }else {
                     for (File file : pastaMusicas.listFiles())

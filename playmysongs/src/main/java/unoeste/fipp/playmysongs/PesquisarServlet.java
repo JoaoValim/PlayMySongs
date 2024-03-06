@@ -19,9 +19,10 @@ import java.io.IOException;
 public class PesquisarServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String nome = request.getParameter("MusicName");
+        String nome = request.getParameter("filtro");
         if(nome!=null){
-            Pesquisar p = new Pesquisar(nome);
+            String escolha = request.getParameter("escolha");
+            Pesquisar p = new Pesquisar(nome,escolha.charAt(0));
             HttpSession session = request.getSession();
             session.setAttribute("filtro",p);
         }
