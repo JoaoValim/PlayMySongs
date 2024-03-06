@@ -98,7 +98,7 @@
                 if(p!=null && p.getNome().compareTo("")!=0 ){
                     for (File file : pastaMusicas.listFiles())
                         if(file.isFile()) {
-                            if (p.getEscolha() == '1' && p.getNome().equals(nome(formatMusic(file.getAbsolutePath())))) {
+                            if (p.getEscolha() == '1' && p.getNome().compareToIgnoreCase(nome(formatMusic(file.getAbsolutePath())))==0) {
                                 out.print("<div class=\"row justify-content-center\">" +
                                         "<audio controls class=\"col-md-6\">   " +
                                         "<source src=\"" + "." + musica(file.getAbsolutePath()) + "\" type=\"audio/mpeg\">" +
@@ -107,7 +107,7 @@
                                         "<p style=\"text-align:center;\">" + formatMusic(file.getAbsolutePath()) + "</p> </div>");
                             }
                             else
-                            if(p.getEscolha() == '2' && p.getNome().equals(cantor(formatMusic(file.getAbsolutePath())))){
+                            if(p.getEscolha() == '2' && p.getNome().compareToIgnoreCase(cantor(formatMusic(file.getAbsolutePath())))==0){
                                 out.print("<div class=\"row justify-content-center\">" +
                                         "<audio controls class=\"col-md-6\">   " +
                                         "<source src=\"" + "." + musica(file.getAbsolutePath()) + "\" type=\"audio/mpeg\">" +
@@ -116,7 +116,7 @@
                                         "<p style=\"text-align:center;\">" + formatMusic(file.getAbsolutePath()) + "</p> </div>");
                             }
                             else
-                            if(p.getNome().equals(estilo(formatMusic(file.getAbsolutePath())))){
+                            if(p.getEscolha() == '3' && p.getNome().compareToIgnoreCase(estilo(formatMusic(file.getAbsolutePath())))==0){
                                 out.print("<div class=\"row justify-content-center\">" +
                                         "<audio controls class=\"col-md-6\">   " +
                                         "<source src=\"" + "." + musica(file.getAbsolutePath()) + "\" type=\"audio/mpeg\">" +
