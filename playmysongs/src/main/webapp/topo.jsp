@@ -25,7 +25,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="enviamusica.jsp">Enviar Musica</a>
                 </li>
-                <% } %>
+                <li class="nav-item">
+                    <button class="btn btn-danger" type="button">Logout</button>
+                </li>
+                <% } else {%>
                 <li class="nav-item">
                     <form class="d-flex" method="post" action="./login-servlet">
                         <input class="form-control me-2" type="text" placeholder="Username" id="username" name="username">
@@ -33,6 +36,7 @@
                         <button class="btn btn-primary" type="submit">Login</button>
                     </form>
                 </li>
+                <%}%>
             </ul>
         </div>
     </div>
