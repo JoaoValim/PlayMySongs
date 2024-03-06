@@ -8,11 +8,44 @@
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <%!
+        private String musica(String absolutePath) {
+            int i=absolutePath.length()-1;
+            while(absolutePath.charAt(i)!='\\')
+                i--;
+            i--;
+            while(absolutePath.charAt(i)!='\\')
+                i--;
+            return absolutePath.substring(i);
+        }
+
+        private String estilo(String musica) {
+            int i=0,j=musica.length()-1;
+            while(musica.charAt(i)!='_')
+                i++;
+            while(musica.charAt(j)!='_')
+                j--;
+            return musica.substring(++i,j);
+        }
+
         private String formatMusic(String absolutePath) {
             int i=absolutePath.length()-1;
             while(absolutePath.charAt(i)!='\\')
                 i--;
             return absolutePath.substring(i+1);
+        }
+
+        private String nome(String musica){
+            int i=0;
+            while(musica.charAt(i)!='_')
+                i++;
+            return musica.substring(0,i);
+        }
+
+        private String cantor(String musica){
+            int i=musica.length()-1;
+            while(musica.charAt(i)!='_')
+                i--;
+            return musica.substring(++i);
         }
     %>
 </head>
@@ -48,9 +81,10 @@
                     for (File file : pastaMusicas.listFiles())
                         if(file.isFile()){
                             System.out.println(file.getAbsolutePath());
+                            System.out.println(musica(file.getAbsolutePath()));
                             out.print("<div class=\"row justify-content-center\">" +
                                     "<audio controls class=\"col-md-6\">   " +
-                                    "<source src=\"../"+file.getAbsolutePath()+"\" type=\"audio/mpeg\">" +
+                                    "<source src=\""+"."+musica(file.getAbsolutePath())+"\" type=\"audio/mpeg\">" +
                                     "</audio>" +
                                     "<br>" +
                                     "<p style=\"text-align:center;\">"+formatMusic(file.getAbsolutePath())+"</p> </div>");
